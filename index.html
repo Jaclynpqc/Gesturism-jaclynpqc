@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8" />
+        <link  rel = "icon" type = "" href = ""/>
+        <link rel = "stylesheet" href="style.css"/>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1,0"/>
+        <title> Invisible Ink</title>
+    </head>
+
+    <body>
+        <div id = "app"></div>
+        <script type = "module" src = "src/main.js"></script>
+        <section id = "demo" class= = "invisible">
+            <h2>Invisible Ink</h2>
+            <p>
+                Step in front of the camera and start drawing. 
+                To reveal the result, clap your hand twice (for dramatic effect ^.^)
+            </p>
+
+            <div id = "liveView" class ="videoView">
+                <div style = "position: relative">
+                    <video id = "webcam" style = "position: absolute;" autoplay playsinLine></video>
+                    <canvas class = "output_canvas" id="output_canvas" style="position:absolute; left: 0px;top:0px"></canvas>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "invisible-ink"
+version = "0.1.0"
+description = "A movement-based digital painting application"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+opencv-python = "^4.10.0.84"
+mediapipe = "^0.10.15"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
