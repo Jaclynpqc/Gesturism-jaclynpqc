@@ -3,7 +3,7 @@ import mediapipe as mp
 import time
 
 class handDetector():
-    def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):
+    def __init__(self, mode = False, maxHands = 2, detectionCon = 1, trackCon = 0.5):
         self.mode = mode
         self.maxHands = maxHands
         self.detectionCon = detectionCon
@@ -48,8 +48,8 @@ def main():
     detector = handDetector()
     while True:
         success, img = cap.read() #give frame
-        img = detector.findHands(img)
-        lmlist = detector.findPosition(img)
+        img = detector.findHands(img) #draw=False
+        lmlist = detector.findPosition(img) #draw=False
         if len(lmlist) != 0:
              print(lmlist[0])
         #calculate frame per second
