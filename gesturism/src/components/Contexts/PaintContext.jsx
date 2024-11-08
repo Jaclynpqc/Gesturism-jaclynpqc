@@ -2,32 +2,77 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
 // Global state management for active brush settings, tracking selections, color settings and canvas state
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 
 const PaintContext = createContext();
 
-export const PaintProvider = ({ children }) => {
-  const [settings, setSettings] = useState({
+const initialState = {
+    // Tracking settings
     tracking: {
-      head: { brush: 'pencil', enabled: true },
-      upperBody: { brush: 'fine-line', enabled: true },
-      lowerBody: { brush: 'wet-acrylics', enabled: true },
-      arms: { brush: 'pencil', enabled: true },
-      hands: { brush: 'none', enabled: false },
+      isTracking: true,
+      speedThreshold: 5, // for movement speed detection
+      lastPositions: [], // for path tracking
+      gestureMode: false,
     },
-    colors: {
-      head: '#000000',
-      upperBody: '#0000FF',
-      lowerBody: '#FF0000',
-      arms: '#00FF00',
+    // Tool settings
+    tools: {
+      currentTool: 'brush',
+      brushType: 'basic',
+      brushSize: 5,
+      opacity: 1,
+      color: '#000000',
+    },
+    // Canvas settings
+    canvas: {
+      width: 800,
+      height: 600,
+      history: [], // for undo/redo
+      currentHistoryIndex: -1,
+      unsavedChanges: false,
+    },
+    // UI settings
+    ui: {
+      showSettings: false,
+      showColorPicker: false,
+      cameraEnabled: true,
     }
-  });
+  };
 
-  return (
-    <PaintContext.Provider value={{ settings, setSettings }}>
-      {children}
-    </PaintContext.Provider>
-  );
-};
 
-export const usePaintContext = () => useContext(PaintContext);
+  const paintReducer = (state, action) => {
+    switch (action.type) {
+      case 'SET_TOOL':
+        return { ...state, tools: { ...state.tools, ...action.payload } };
+      case 'UPDATE_TRACKING':
+        return { ...state, tracking: { ...state.tracking, ...action.payload } };
+      case 'UPDATE_CANVAS':
+        return { ...state, canvas: { ...state.canvas, ...action.payload } };
+      case 'UPDATE_UI':
+        return { ...state, ui: { ...state.ui, ...action.payload } };
+      case 'ADD_TO_HISTORY':
+        return {
+          ...state,
+          canvas: {
+            ...state.canvas,
+            history: [...state.canvas.history.slice(0, state.canvas.currentHistoryIndex + 1), action.payload],
+            currentHistoryIndex: state.canvas.currentHistoryIndex + 1,
+            unsavedChanges: true,
+          }
+        };
+      default:
+        return state;
+    }
+  };
+
+  export const PaintProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(paintReducer, initialState);
+  
+    return (
+      <PaintContext.Provider value={{ state, dispatch }}>
+        {children}
+      </PaintContext.Provider>
+    );
+  };
+  
+
+export const usePaintContext= () => useContext(PaintContext);
