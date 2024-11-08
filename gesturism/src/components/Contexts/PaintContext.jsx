@@ -2,6 +2,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
 // Global state management for active brush settings, tracking selections, color settings and canvas state
+// - Tracking settings (e.g., whether tracking is enabled, gesture mode, etc.)
+// - Tool settings (e.g., brush type, size, color, opacity)
+// - Canvas settings (e.g., width, height, undo/redo history)
+// - UI settings (e.g., whether the settings panel is visible, camera enabled)
 import React, { createContext, useContext, useReducer } from 'react';
 
 const PaintContext = createContext();

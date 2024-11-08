@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { PaintProvider } from './contexts/PaintContext';
+import { PaintProvider } from './components/Contexts/PaintContext';
 import Canvas from './components/Canvas/Canvas';
 import Settings from './components/Settings/Settings';
 import Camera from './components/Camera/Camera';
@@ -11,7 +11,6 @@ const App = () => {
       <div className="flex h-screen">
         <div className="flex-1 relative">
           <Canvas />
-          <Camera />
         </div>
         <div className="w-64">
           <Settings />

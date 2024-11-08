@@ -1,35 +1,59 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-// Main drawing surface that renders the brush strokes based on pose keypoints
 import React, { useRef, useEffect } from 'react';
-import { usePaintContext } from '../../contexts/PaintContext';
-
-const Canvas = ({ poses }) => {
+import { usePaintContext } from '../Contexts/PaintContext';
+import { usePoseDetection } from '../PoseDetection/PoseDetection';
+const Canvas = () => {
   const canvasRef = useRef(null);
-  const { settings } = usePaintContext();
+  const { state } = usePaintContext();
+  const { poses, detectPose } = usePoseDetection();
 
   useEffect(() => {
-    if (!poses.length) return;
-    
-    const ctx = canvasRef.current.getContext('2d');
-    const pose = poses[0];
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
 
-    // Draw based on keypoints
-    pose.keypoints.forEach(keypoint => {
-      if (keypoint.score > 0.5) {
-        const { x, y } = keypoint.position;
-        // Apply brush based on body part
-        drawStroke(ctx, x, y, settings.tracking[getBodyPart(keypoint.part)]);
+    const drawFrame = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (state.tracking.isTracking && poses.length) {
+        const pose = poses[0];
+        pose.keypoints.forEach(keypoint => {
+          if (keypoint.score > 0.5) {
+            const { x, y } = keypoint.position;
+            ctx.beginPath();
+            ctx.globalAlpha = state.tools.opacity;
+            ctx.strokeStyle = state.tools.color;
+            ctx.lineWidth = state.tools.brushSize;
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+          }
+        });
       }
-    });
-  }, [poses, settings]);
+
+      requestAnimationFrame(drawFrame);
+    };
+
+    drawFrame();
+  }, [state.tracking.isTracking, poses, state.tools]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      detectPose();
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [detectPose]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full absolute top-0 left-0"
-      width={640}
-      height={480}
+      width={state.canvas.width}
+      height={state.canvas.height}
+      className="border border-gray-300 w-full h-full"
     />
   );
 };
+
+export default Canvas;

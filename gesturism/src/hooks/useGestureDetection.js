@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from 'react';
-import { usePaintContext } from '../contexts/PaintContext';
+import { usePaintContext } from '../components/Contexts/PaintContext';
 
 export const useGestureDetection = (poses) => {
   const { state, dispatch } = usePaintContext();
