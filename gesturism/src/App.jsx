@@ -11,6 +11,7 @@ const App = () => {
       <div className="flex h-screen">
         <div className="flex-1 relative">
           <Canvas />
+          <Camera />
         </div>
         <div className="w-64">
           <Settings />

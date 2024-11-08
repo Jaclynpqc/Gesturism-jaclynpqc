@@ -1,4 +1,10 @@
 /* eslint-disable no-unused-vars */
+/*
+The `Settings` component provides the UI for controlling the various settings, including:
+- Tracking settings (enable/disable, gesture mode)
+- Brush settings (type, size, opacity, color)
+- Canvas controls (clear, undo, redo)
+ */
 import React from 'react';
 import { usePaintContext } from '../Contexts/PaintContext';
 
