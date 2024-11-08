@@ -1,0 +1,1 @@
+// Main drawing surface that renders the brush strokes based on pose keypoints

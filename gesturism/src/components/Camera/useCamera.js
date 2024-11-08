@@ -1,0 +1,1 @@
+// Hook for managing camera permissions and video stream

@@ -1,0 +1,1 @@
+// Custom hook managing canvas operations, brush strokes, and drawing logic

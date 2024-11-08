@@ -1,0 +1,1 @@
+//Video feed component showing users movement

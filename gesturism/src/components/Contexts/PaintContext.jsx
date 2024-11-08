@@ -1,0 +1,1 @@
+// Global state management for active brush settings, tracking selections, color settings and canvas state

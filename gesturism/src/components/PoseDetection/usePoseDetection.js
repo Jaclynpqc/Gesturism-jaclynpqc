@@ -1,0 +1,1 @@
+// Custom hook for managing PoseNet lifecycle and pose data
