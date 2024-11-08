@@ -1,27 +1,24 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import CameraView from './components/CameraView'
+import React from 'react';
+import { PaintProvider } from './contexts/PaintContext';
+import Canvas from './components/Canvas/Canvas';
+import Settings from './components/Settings/Settings';
+import Camera from './components/Camera/Camera';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <div className = "min-h-screen bg-gray-100">
-      <header className = "bg-white shadow-sm">
-        <div className = "max-w-7xl mx-auto py-4 px-4">
-          <h1 className = "text-2xl font-bold text-gray-900">
-            Gesturism
-          </h1>
+    <PaintProvider>
+      <div className="flex h-screen">
+        <div className="flex-1 relative">
+          <Canvas />
+          <Camera />
         </div>
-      </header>
-      <main>
-        < CameraView />
-      </main>
-    </div>
-  )
-}
+        <div className="w-64">
+          <Settings />
+        </div>
+      </div>
+    </PaintProvider>
+  );
+};
 
-export default App
+export default App;
